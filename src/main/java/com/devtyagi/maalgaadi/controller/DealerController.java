@@ -1,7 +1,9 @@
 package com.devtyagi.maalgaadi.controller;
 
 import com.devtyagi.maalgaadi.constants.Endpoints;
+import com.devtyagi.maalgaadi.dto.request.GetDriversForDealerRequestDTO;
 import com.devtyagi.maalgaadi.dto.request.SignupDealerRequestDTO;
+import com.devtyagi.maalgaadi.dto.response.GetDriversForDealerResponseDTO;
 import com.devtyagi.maalgaadi.dto.response.LoginDealerResponseDTO;
 import com.devtyagi.maalgaadi.service.DealerService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,11 @@ public class DealerController {
     @PostMapping(Endpoints.AuthAPI.DEALER_SIGNUP)
     public LoginDealerResponseDTO signupDealer(@RequestBody SignupDealerRequestDTO signupDealerRequestDTO) {
         return dealerService.signup(signupDealerRequestDTO);
+    }
+
+    @PostMapping(Endpoints.DealerAPI.GET_DRIVERS)
+    public GetDriversForDealerResponseDTO getDriversForDealer(@RequestBody GetDriversForDealerRequestDTO getDriversForDealerRequestDTO) {
+        return dealerService.getDriversForDealer(getDriversForDealerRequestDTO);
     }
 
 }

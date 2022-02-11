@@ -36,7 +36,7 @@ public class Driver {
 
     private Double drivingExperience;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "driver_id", referencedColumnName = "driverId")
     private List<Route> interestedRoutes;
 

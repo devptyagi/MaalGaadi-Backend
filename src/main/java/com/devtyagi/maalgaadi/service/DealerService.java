@@ -2,16 +2,22 @@ package com.devtyagi.maalgaadi.service;
 
 import com.devtyagi.maalgaadi.dao.Dealer;
 import com.devtyagi.maalgaadi.dao.User;
+import com.devtyagi.maalgaadi.dto.request.GetDriversForDealerRequestDTO;
 import com.devtyagi.maalgaadi.dto.request.LoginRequestDTO;
 import com.devtyagi.maalgaadi.dto.request.SignupDealerRequestDTO;
+import com.devtyagi.maalgaadi.dto.response.GetDriversForDealerResponseDTO;
 import com.devtyagi.maalgaadi.dto.response.LoginDealerResponseDTO;
 import com.devtyagi.maalgaadi.enums.UserRole;
 import com.devtyagi.maalgaadi.exception.InvalidCredentialsException;
+import com.devtyagi.maalgaadi.exception.InvalidSortFieldException;
 import com.devtyagi.maalgaadi.model.CustomUserDetails;
 import com.devtyagi.maalgaadi.repository.DealerRepository;
+import com.devtyagi.maalgaadi.repository.DriverRepository;
 import com.devtyagi.maalgaadi.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +35,8 @@ public class DealerService {
     private final AuthenticationManager authenticationManager;
 
     private final JwtUserDetailsService userDetailsService;
+
+    private final DriverRepository driverRepository;
 
     private final JwtUtil jwtUtil;
 
@@ -74,6 +82,33 @@ public class DealerService {
                 .dealer(dealer)
                 .accessToken(accessToken)
                 .build();
+    }
+
+    public GetDriversForDealerResponseDTO getDriversForDealer(GetDriversForDealerRequestDTO driverRequest) {
+        val sortOrder = driverRequest.getDescending() ? Sort.Direction.DESC : Sort.Direction.ASC;
+        val sortBy = getSortField(driverRequest.getSortBy());
+        val pageRequest = PageRequest.of(
+                driverRequest.getPageNumber(),
+                driverRequest.getPageSize(),
+                Sort.by(sortOrder, sortBy)
+        );
+        val drivers = driverRepository.getAllDriversByCity(driverRequest.getCity(), pageRequest);
+        return GetDriversForDealerResponseDTO.builder()
+                .totalDrivers(drivers.getTotalElements())
+                .totalPages(drivers.getTotalPages())
+                .driverList(drivers.toList())
+                .build();
+    }
+
+    private String getSortField(String sortRequest) {
+        switch (sortRequest) {
+            case "name": return "user.name";
+            case "age": return "age";
+            case "truckCapacity": return "truckCapacity";
+            case "transporterName": return "transporterName";
+            case "drivingExperience": return "drivingExperience";
+            default: throw new InvalidSortFieldException(String.format("Can not sort on %s!", sortRequest));
+        }
     }
 
 }
