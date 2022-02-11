@@ -2,10 +2,11 @@ package com.devtyagi.maalgaadi.service;
 
 import com.devtyagi.maalgaadi.dao.Dealer;
 import com.devtyagi.maalgaadi.dao.User;
+import com.devtyagi.maalgaadi.dto.request.GetDriversByRouteRequestDTO;
 import com.devtyagi.maalgaadi.dto.request.GetDriversForDealerRequestDTO;
 import com.devtyagi.maalgaadi.dto.request.LoginRequestDTO;
 import com.devtyagi.maalgaadi.dto.request.SignupDealerRequestDTO;
-import com.devtyagi.maalgaadi.dto.response.GetDriversForDealerResponseDTO;
+import com.devtyagi.maalgaadi.dto.response.GetDriversResponseDTO;
 import com.devtyagi.maalgaadi.dto.response.LoginDealerResponseDTO;
 import com.devtyagi.maalgaadi.enums.UserRole;
 import com.devtyagi.maalgaadi.exception.InvalidCredentialsException;
@@ -84,7 +85,7 @@ public class DealerService {
                 .build();
     }
 
-    public GetDriversForDealerResponseDTO getDriversForDealer(GetDriversForDealerRequestDTO driverRequest) {
+    public GetDriversResponseDTO getDriversForDealer(GetDriversForDealerRequestDTO driverRequest) {
         val sortOrder = driverRequest.getDescending() ? Sort.Direction.DESC : Sort.Direction.ASC;
         val sortBy = getSortField(driverRequest.getSortBy());
         val pageRequest = PageRequest.of(
@@ -93,7 +94,23 @@ public class DealerService {
                 Sort.by(sortOrder, sortBy)
         );
         val drivers = driverRepository.getAllDriversByCity(driverRequest.getCity(), pageRequest);
-        return GetDriversForDealerResponseDTO.builder()
+        return GetDriversResponseDTO.builder()
+                .totalDrivers(drivers.getTotalElements())
+                .totalPages(drivers.getTotalPages())
+                .driverList(drivers.toList())
+                .build();
+    }
+
+    public GetDriversResponseDTO getDriversByRoute(GetDriversByRouteRequestDTO driverRequest) {
+        val sortOrder = driverRequest.getDescending() ? Sort.Direction.DESC : Sort.Direction.ASC;
+        val sortBy = getSortField(driverRequest.getSortBy());
+        val pageRequest = PageRequest.of(
+                driverRequest.getPageNumber(),
+                driverRequest.getPageSize(),
+                Sort.by(sortOrder, sortBy)
+        );
+        val drivers = driverRepository.getAllDriversByRoute(driverRequest.getFromCity(), driverRequest.getToCity(), pageRequest);
+        return GetDriversResponseDTO.builder()
                 .totalDrivers(drivers.getTotalElements())
                 .totalPages(drivers.getTotalPages())
                 .driverList(drivers.toList())

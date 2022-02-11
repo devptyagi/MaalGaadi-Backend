@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class GetDriversForDealerResponseDTO {
+public class GetDriversResponseDTO {
 
     private Long totalDrivers;
     private Integer totalPages;

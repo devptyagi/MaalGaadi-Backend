@@ -29,6 +29,8 @@ public class Endpoints {
 
         public static final String GET_DRIVERS = DEALER_BASE_URL + "/drivers";
 
+        public static final String GET_DRIVERS_BY_ROUTE = DEALER_BASE_URL + "/drivers-route";
+
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

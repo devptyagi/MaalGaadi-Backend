@@ -13,6 +13,12 @@ public interface DriverRepository extends JpaRepository<Driver, String> {
 
     Page<Driver> findAllByInterestedRoutes_FromCityOrInterestedRoutes_ToCity(String fromCity, String toCity, Pageable pageable);
 
+    Page<Driver> findAllByInterestedRoutes_FromCityAndInterestedRoutes_ToCity(String fromCity, String toCity, Pageable pageable);
+
+    default Page<Driver> getAllDriversByRoute(String fromCity, String toCity, Pageable pageable) {
+        return findAllByInterestedRoutes_FromCityAndInterestedRoutes_ToCity(fromCity, toCity, pageable);
+    }
+
     default Page<Driver> getAllDriversByCity(String city, Pageable pageable) {
         return findAllByInterestedRoutes_FromCityOrInterestedRoutes_ToCity(city, city, pageable);
     }
