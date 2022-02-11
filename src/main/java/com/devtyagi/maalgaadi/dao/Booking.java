@@ -1,5 +1,6 @@
 package com.devtyagi.maalgaadi.dao;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,10 +34,13 @@ public class Booking {
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    private Date bookedAt;
+    private Date bookedOn;
 
     private String fromCity;
 
     private String toCity;
+
+    @Temporal(TemporalType.DATE)
+    private Date bookingDate;
 
 }

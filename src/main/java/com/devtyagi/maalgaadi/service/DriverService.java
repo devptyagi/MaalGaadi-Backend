@@ -6,6 +6,7 @@ import com.devtyagi.maalgaadi.dto.request.LoginRequestDTO;
 import com.devtyagi.maalgaadi.dto.request.SignupDriverRequestDTO;
 import com.devtyagi.maalgaadi.dto.response.LoginDriverResponseDTO;
 import com.devtyagi.maalgaadi.enums.UserRole;
+import com.devtyagi.maalgaadi.exception.DriverNotFoundException;
 import com.devtyagi.maalgaadi.exception.InvalidCredentialsException;
 import com.devtyagi.maalgaadi.model.CustomUserDetails;
 import com.devtyagi.maalgaadi.repository.DealerRepository;
@@ -73,6 +74,11 @@ public class DriverService {
                 .driver(driver)
                 .accessToken(accessToken)
                 .build();
+    }
+
+    public Driver getDriverById(String id) {
+        return driverRepository.findById(id)
+                .orElseThrow(DriverNotFoundException::new);
     }
 
 }

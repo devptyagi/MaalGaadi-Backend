@@ -1,13 +1,16 @@
 package com.devtyagi.maalgaadi.controller;
 
 import com.devtyagi.maalgaadi.constants.Endpoints;
+import com.devtyagi.maalgaadi.dto.request.BookingRequestDTO;
 import com.devtyagi.maalgaadi.dto.request.GetDriversByRouteRequestDTO;
 import com.devtyagi.maalgaadi.dto.request.GetDriversForDealerRequestDTO;
 import com.devtyagi.maalgaadi.dto.request.SignupDealerRequestDTO;
+import com.devtyagi.maalgaadi.dto.response.BookingResponseDTO;
 import com.devtyagi.maalgaadi.dto.response.GetDriversResponseDTO;
 import com.devtyagi.maalgaadi.dto.response.LoginDealerResponseDTO;
 import com.devtyagi.maalgaadi.service.DealerService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(Endpoints.BASE_URL)
+@Slf4j
 public class DealerController {
 
     private final DealerService dealerService;
@@ -33,6 +37,11 @@ public class DealerController {
     @PostMapping(Endpoints.DealerAPI.GET_DRIVERS_BY_ROUTE)
     public GetDriversResponseDTO getDriversByRoute(@RequestBody GetDriversByRouteRequestDTO getDriversByRouteRequestDTO) {
         return dealerService.getDriversByRoute(getDriversByRouteRequestDTO);
+    }
+
+    @PostMapping(Endpoints.DealerAPI.BOOK_DRIVER)
+    public BookingResponseDTO bookDriver(@RequestBody BookingRequestDTO bookingRequestDTO) {
+        return dealerService.bookDriver(bookingRequestDTO);
     }
 
 }
