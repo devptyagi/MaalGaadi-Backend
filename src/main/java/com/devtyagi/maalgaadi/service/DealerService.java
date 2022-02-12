@@ -8,10 +8,7 @@ import com.devtyagi.maalgaadi.dto.response.BookingResponseDTO;
 import com.devtyagi.maalgaadi.dto.response.GetDriversResponseDTO;
 import com.devtyagi.maalgaadi.dto.response.LoginDealerResponseDTO;
 import com.devtyagi.maalgaadi.enums.UserRole;
-import com.devtyagi.maalgaadi.exception.DealerNotFoundException;
-import com.devtyagi.maalgaadi.exception.InvalidCredentialsException;
-import com.devtyagi.maalgaadi.exception.InvalidOtpException;
-import com.devtyagi.maalgaadi.exception.InvalidSortFieldException;
+import com.devtyagi.maalgaadi.exception.*;
 import com.devtyagi.maalgaadi.model.CustomUserDetails;
 import com.devtyagi.maalgaadi.repository.BookingRepository;
 import com.devtyagi.maalgaadi.repository.DealerRepository;
@@ -53,7 +50,12 @@ public class DealerService {
 
     private final OtpService otpService;
 
+    private final UserService userService;
+
     public LoginDealerResponseDTO signup(SignupDealerRequestDTO signupRequest) {
+        if(userService.exists(signupRequest.getUsername())) {
+            throw new UserAlreadyExistsException();
+        }
         val user = User.builder()
                 .name(signupRequest.getName())
                 .email(signupRequest.getEmail())

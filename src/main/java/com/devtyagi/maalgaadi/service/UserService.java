@@ -17,4 +17,8 @@ public class UserService {
                 .orElseThrow(UserNotFoundException::new);
     }
 
+    public boolean exists(String username) {
+        return userRepository.existsUserByUsername(username);
+    }
+
 }
