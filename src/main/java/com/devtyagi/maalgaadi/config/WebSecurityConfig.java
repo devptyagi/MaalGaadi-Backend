@@ -1,6 +1,7 @@
 package com.devtyagi.maalgaadi.config;
 
 import com.devtyagi.maalgaadi.constants.Endpoints;
+import com.devtyagi.maalgaadi.enums.UserRole;
 import com.devtyagi.maalgaadi.service.JwtUserDetailsService;
 import com.devtyagi.maalgaadi.util.FilterChainExceptionHandler;
 import com.devtyagi.maalgaadi.util.JwtRequestFilter;
@@ -41,7 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests()
-                .antMatchers(Endpoints.BASE_URL + "/**").permitAll();
+                .antMatchers(Endpoints.BASE_URL + "/auth/**").permitAll()
+                .antMatchers(Endpoints.BASE_URL + "/dealer/**").hasRole(UserRole.DEALER.toString())
+                .antMatchers(Endpoints.BASE_URL + "/driver/**").hasRole(UserRole.DRIVER.toString());
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(filterChainExceptionHandler, LogoutFilter.class);
