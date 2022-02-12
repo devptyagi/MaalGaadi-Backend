@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @Entity
@@ -22,12 +23,16 @@ public class Route {
     @GenericGenerator(name="system-uuid", strategy = "uuid2")
     private String routeId;
 
+    @NotBlank(message = "From City must not be blank!")
     private String fromCity;
 
+    @NotBlank(message = "From State must not be blank!")
     private String fromState;
 
+    @NotBlank(message = "To City must not be blank!")
     private String toCity;
 
+    @NotBlank(message = "To State must not be blank!")
     private String toState;
 
 }

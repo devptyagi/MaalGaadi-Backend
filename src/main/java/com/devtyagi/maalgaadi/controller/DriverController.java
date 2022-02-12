@@ -12,6 +12,7 @@ import com.devtyagi.maalgaadi.service.DriverService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,22 +23,22 @@ public class DriverController {
     private final DriverService driverService;
 
     @PostMapping(Endpoints.AuthAPI.DRIVER_SIGNUP)
-    public LoginDriverResponseDTO signupDriver(@RequestBody SignupDriverRequestDTO signupDriverRequestDTO) {
+    public LoginDriverResponseDTO signupDriver(@RequestBody @Valid SignupDriverRequestDTO signupDriverRequestDTO) {
         return driverService.signup(signupDriverRequestDTO);
     }
 
     @PostMapping(Endpoints.AuthAPI.DRIVER_LOGIN)
-    public LoginDriverResponseDTO loginDriver(@RequestBody LoginRequestDTO loginRequestDTO) {
+    public LoginDriverResponseDTO loginDriver(@RequestBody @Valid LoginRequestDTO loginRequestDTO) {
         return driverService.login(loginRequestDTO);
     }
 
     @PostMapping(Endpoints.AuthAPI.DRIVER_LOGIN_OTP)
-    public LoginDriverResponseDTO loginDriverViaOtp(@RequestBody LoginViaOtpRequestDTO loginViaOtpRequestDTO) {
+    public LoginDriverResponseDTO loginDriverViaOtp(@RequestBody @Valid LoginViaOtpRequestDTO loginViaOtpRequestDTO) {
         return driverService.loginViaOtp(loginViaOtpRequestDTO.getUsername(), loginViaOtpRequestDTO.getOtp());
     }
 
     @PostMapping(Endpoints.DriverAPI.GET_BOOKINGS)
-    public GetBookingsResponseDTO getBookingsForDriver(@RequestBody GetBookingsRequestDTO getBookingsRequestDTO) {
+    public GetBookingsResponseDTO getBookingsForDriver(@RequestBody @Valid GetBookingsRequestDTO getBookingsRequestDTO) {
         return driverService.getBookingsForDriver(getBookingsRequestDTO);
     }
 

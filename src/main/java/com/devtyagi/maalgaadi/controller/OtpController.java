@@ -20,10 +20,6 @@ public class OtpController {
 
     private final UserService userService;
 
-    private final DealerService dealerService;
-
-    private final DriverService driverService;
-
     @GetMapping(Endpoints.AuthAPI.GET_OTP)
     public String generateOtp(@RequestParam String username) throws IOException {
         val user = userService.getUserByUsername(username);
