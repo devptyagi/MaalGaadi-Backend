@@ -14,11 +14,17 @@ public class Endpoints {
 
         public static final String DEALER_LOGIN = AUTH_BASE_URL + "/dealer/login";
 
+        public static final String DEALER_LOGIN_OTP = AUTH_BASE_URL + "/dealer/login-otp";
+
         public static final String DEALER_SIGNUP = AUTH_BASE_URL + "/dealer/signup";
 
         public static final String DRIVER_LOGIN = AUTH_BASE_URL + "/driver/login";
 
+        public static final String DRIVER_LOGIN_OTP = AUTH_BASE_URL + "/driver/login-otp";
+
         public static final String DRIVER_SIGNUP = AUTH_BASE_URL + "/driver/signup";
+
+        public static final String GET_OTP = AUTH_BASE_URL + "/get-otp";
 
     }
 

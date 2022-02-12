@@ -4,6 +4,7 @@ import com.devtyagi.maalgaadi.constants.Endpoints;
 import com.devtyagi.maalgaadi.dao.Booking;
 import com.devtyagi.maalgaadi.dto.request.GetBookingsRequestDTO;
 import com.devtyagi.maalgaadi.dto.request.LoginRequestDTO;
+import com.devtyagi.maalgaadi.dto.request.LoginViaOtpRequestDTO;
 import com.devtyagi.maalgaadi.dto.request.SignupDriverRequestDTO;
 import com.devtyagi.maalgaadi.dto.response.GetBookingsResponseDTO;
 import com.devtyagi.maalgaadi.dto.response.LoginDriverResponseDTO;
@@ -28,6 +29,11 @@ public class DriverController {
     @PostMapping(Endpoints.AuthAPI.DRIVER_LOGIN)
     public LoginDriverResponseDTO loginDriver(@RequestBody LoginRequestDTO loginRequestDTO) {
         return driverService.login(loginRequestDTO);
+    }
+
+    @PostMapping(Endpoints.AuthAPI.DRIVER_LOGIN_OTP)
+    public LoginDriverResponseDTO loginDriverViaOtp(@RequestBody LoginViaOtpRequestDTO loginViaOtpRequestDTO) {
+        return driverService.loginViaOtp(loginViaOtpRequestDTO.getUsername(), loginViaOtpRequestDTO.getOtp());
     }
 
     @PostMapping(Endpoints.DriverAPI.GET_BOOKINGS)

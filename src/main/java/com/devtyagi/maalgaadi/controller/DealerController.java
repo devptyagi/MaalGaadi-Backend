@@ -1,13 +1,11 @@
 package com.devtyagi.maalgaadi.controller;
 
 import com.devtyagi.maalgaadi.constants.Endpoints;
-import com.devtyagi.maalgaadi.dto.request.BookingRequestDTO;
-import com.devtyagi.maalgaadi.dto.request.GetDriversByRouteRequestDTO;
-import com.devtyagi.maalgaadi.dto.request.GetDriversForDealerRequestDTO;
-import com.devtyagi.maalgaadi.dto.request.SignupDealerRequestDTO;
+import com.devtyagi.maalgaadi.dto.request.*;
 import com.devtyagi.maalgaadi.dto.response.BookingResponseDTO;
 import com.devtyagi.maalgaadi.dto.response.GetDriversResponseDTO;
 import com.devtyagi.maalgaadi.dto.response.LoginDealerResponseDTO;
+import com.devtyagi.maalgaadi.dto.response.LoginDriverResponseDTO;
 import com.devtyagi.maalgaadi.service.DealerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +25,16 @@ public class DealerController {
     @PostMapping(Endpoints.AuthAPI.DEALER_SIGNUP)
     public LoginDealerResponseDTO signupDealer(@RequestBody SignupDealerRequestDTO signupDealerRequestDTO) {
         return dealerService.signup(signupDealerRequestDTO);
+    }
+
+    @PostMapping(Endpoints.AuthAPI.DEALER_LOGIN)
+    public LoginDealerResponseDTO loginDealer(@RequestBody LoginRequestDTO loginRequestDTO) {
+        return dealerService.login(loginRequestDTO);
+    }
+
+    @PostMapping(Endpoints.AuthAPI.DEALER_LOGIN_OTP)
+    public LoginDealerResponseDTO loginDealerViaOtp(@RequestBody LoginViaOtpRequestDTO loginViaOtpRequestDTO) {
+        return dealerService.loginViaOtp(loginViaOtpRequestDTO.getUsername(), loginViaOtpRequestDTO.getOtp());
     }
 
     @PostMapping(Endpoints.DealerAPI.GET_DRIVERS)

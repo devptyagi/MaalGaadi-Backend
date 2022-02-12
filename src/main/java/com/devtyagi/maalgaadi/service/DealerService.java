@@ -7,9 +7,11 @@ import com.devtyagi.maalgaadi.dto.request.*;
 import com.devtyagi.maalgaadi.dto.response.BookingResponseDTO;
 import com.devtyagi.maalgaadi.dto.response.GetDriversResponseDTO;
 import com.devtyagi.maalgaadi.dto.response.LoginDealerResponseDTO;
+import com.devtyagi.maalgaadi.dto.response.LoginDriverResponseDTO;
 import com.devtyagi.maalgaadi.enums.UserRole;
 import com.devtyagi.maalgaadi.exception.DealerNotFoundException;
 import com.devtyagi.maalgaadi.exception.InvalidCredentialsException;
+import com.devtyagi.maalgaadi.exception.InvalidOtpException;
 import com.devtyagi.maalgaadi.exception.InvalidSortFieldException;
 import com.devtyagi.maalgaadi.model.CustomUserDetails;
 import com.devtyagi.maalgaadi.repository.BookingRepository;
@@ -49,6 +51,8 @@ public class DealerService {
     private final JwtUtil jwtUtil;
 
     private final BookingRepository bookingRepository;
+
+    private final OtpService otpService;
 
     public LoginDealerResponseDTO signup(SignupDealerRequestDTO signupRequest) {
         val user = User.builder()
@@ -163,6 +167,17 @@ public class DealerService {
                 .toCity(booking.getToCity())
                 .bookingDate(bookingRequestDTO.getBookingDate())
                 .bookedOn(booking.getBookedOn())
+                .build();
+    }
+
+    public LoginDealerResponseDTO loginViaOtp(String username, Integer otp) {
+        if(!otpService.isOtpValid(username, otp)) throw new InvalidOtpException();
+        val userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(username);
+        val accessToken = jwtUtil.generateToken(userDetails);
+        val dealer = dealerRepository.findByUser_Username(userDetails.getUsername());
+        return LoginDealerResponseDTO.builder()
+                .dealer(dealer)
+                .accessToken(accessToken)
                 .build();
     }
 }

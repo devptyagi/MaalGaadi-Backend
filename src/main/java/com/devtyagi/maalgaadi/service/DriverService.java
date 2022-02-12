@@ -11,6 +11,7 @@ import com.devtyagi.maalgaadi.dto.response.LoginDriverResponseDTO;
 import com.devtyagi.maalgaadi.enums.UserRole;
 import com.devtyagi.maalgaadi.exception.DriverNotFoundException;
 import com.devtyagi.maalgaadi.exception.InvalidCredentialsException;
+import com.devtyagi.maalgaadi.exception.InvalidOtpException;
 import com.devtyagi.maalgaadi.exception.InvalidSortFieldException;
 import com.devtyagi.maalgaadi.model.CustomUserDetails;
 import com.devtyagi.maalgaadi.repository.BookingRepository;
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -44,6 +46,8 @@ public class DriverService {
     private final JwtUtil jwtUtil;
 
     private final BookingRepository bookingRepository;
+
+    private final OtpService otpService;
 
     public LoginDriverResponseDTO signup(SignupDriverRequestDTO signupRequest) {
         val user = User.builder()
@@ -117,5 +121,16 @@ public class DriverService {
             case "bookedOn": return "bookedOn";
             default: throw new InvalidSortFieldException(String.format("Can not sort on %s!", sortRequest));
         }
+    }
+
+    public LoginDriverResponseDTO loginViaOtp(String username, Integer otp) {
+        if(!otpService.isOtpValid(username, otp)) throw new InvalidOtpException();
+        val userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(username);
+        val accessToken = jwtUtil.generateToken(userDetails);
+        val driver = driverRepository.findByUser_Username(userDetails.getUsername());
+        return LoginDriverResponseDTO.builder()
+                .driver(driver)
+                .accessToken(accessToken)
+                .build();
     }
 }
