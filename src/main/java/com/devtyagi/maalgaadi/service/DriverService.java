@@ -121,6 +121,7 @@ public class DriverService {
 
     public LoginDriverResponseDTO loginViaOtp(String username, Integer otp) {
         if(!otpService.isOtpValid(username, otp)) throw new InvalidOtpException();
+        otpService.clearOTP(username);
         val userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(username);
         val accessToken = jwtUtil.generateToken(userDetails);
         val driver = driverRepository.findByUser_Username(userDetails.getUsername());

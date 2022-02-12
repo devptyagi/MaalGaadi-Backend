@@ -171,6 +171,7 @@ public class DealerService {
 
     public LoginDealerResponseDTO loginViaOtp(String username, Integer otp) {
         if(!otpService.isOtpValid(username, otp)) throw new InvalidOtpException();
+        otpService.clearOTP(username);
         val userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(username);
         val accessToken = jwtUtil.generateToken(userDetails);
         val dealer = dealerRepository.findByUser_Username(userDetails.getUsername());
