@@ -1,15 +1,17 @@
 package com.devtyagi.maalgaadi.controller;
 
 import com.devtyagi.maalgaadi.constants.Endpoints;
+import com.devtyagi.maalgaadi.dao.Booking;
+import com.devtyagi.maalgaadi.dto.request.GetBookingsRequestDTO;
 import com.devtyagi.maalgaadi.dto.request.LoginRequestDTO;
 import com.devtyagi.maalgaadi.dto.request.SignupDriverRequestDTO;
+import com.devtyagi.maalgaadi.dto.response.GetBookingsResponseDTO;
 import com.devtyagi.maalgaadi.dto.response.LoginDriverResponseDTO;
 import com.devtyagi.maalgaadi.service.DriverService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +28,11 @@ public class DriverController {
     @PostMapping(Endpoints.AuthAPI.DRIVER_LOGIN)
     public LoginDriverResponseDTO loginDriver(@RequestBody LoginRequestDTO loginRequestDTO) {
         return driverService.login(loginRequestDTO);
+    }
+
+    @PostMapping(Endpoints.DriverAPI.GET_BOOKINGS)
+    public GetBookingsResponseDTO getBookingsForDriver(@RequestBody GetBookingsRequestDTO getBookingsRequestDTO) {
+        return driverService.getBookingsForDriver(getBookingsRequestDTO);
     }
 
 }

@@ -1,24 +1,33 @@
 package com.devtyagi.maalgaadi.service;
 
+import com.devtyagi.maalgaadi.dao.Booking;
 import com.devtyagi.maalgaadi.dao.Driver;
 import com.devtyagi.maalgaadi.dao.User;
+import com.devtyagi.maalgaadi.dto.request.GetBookingsRequestDTO;
 import com.devtyagi.maalgaadi.dto.request.LoginRequestDTO;
 import com.devtyagi.maalgaadi.dto.request.SignupDriverRequestDTO;
+import com.devtyagi.maalgaadi.dto.response.GetBookingsResponseDTO;
 import com.devtyagi.maalgaadi.dto.response.LoginDriverResponseDTO;
 import com.devtyagi.maalgaadi.enums.UserRole;
 import com.devtyagi.maalgaadi.exception.DriverNotFoundException;
 import com.devtyagi.maalgaadi.exception.InvalidCredentialsException;
+import com.devtyagi.maalgaadi.exception.InvalidSortFieldException;
 import com.devtyagi.maalgaadi.model.CustomUserDetails;
+import com.devtyagi.maalgaadi.repository.BookingRepository;
 import com.devtyagi.maalgaadi.repository.DealerRepository;
 import com.devtyagi.maalgaadi.repository.DriverRepository;
 import com.devtyagi.maalgaadi.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +42,8 @@ public class DriverService {
     private final JwtUserDetailsService userDetailsService;
 
     private final JwtUtil jwtUtil;
+
+    private final BookingRepository bookingRepository;
 
     public LoginDriverResponseDTO signup(SignupDriverRequestDTO signupRequest) {
         val user = User.builder()
@@ -81,4 +92,30 @@ public class DriverService {
                 .orElseThrow(DriverNotFoundException::new);
     }
 
+    public GetBookingsResponseDTO getBookingsForDriver(GetBookingsRequestDTO getBookingsRequestDTO) {
+        val sortOrder = getBookingsRequestDTO.getDescending() ? Sort.Direction.DESC : Sort.Direction.ASC;
+        val sortBy = getSortField(getBookingsRequestDTO.getSortBy());
+        val pageRequest = PageRequest.of(
+                getBookingsRequestDTO.getPageNumber(),
+                getBookingsRequestDTO.getPageSize(),
+                Sort.by(sortOrder, sortBy)
+        );
+        val bookings = bookingRepository.findAllByDriver_DriverId(getBookingsRequestDTO.getDriverId(), pageRequest);
+        return GetBookingsResponseDTO.builder()
+                .totalBookings(bookings.getTotalElements())
+                .totalPages(bookings.getTotalPages())
+                .bookingList(bookings.toList())
+                .build();
+    }
+
+    private String getSortField(String sortRequest) {
+        switch (sortRequest) {
+            case "dealerName": return "dealer.user.name";
+            case "fromCity": return "fromCity";
+            case "toCity": return "toCity";
+            case "bookingDate": return "bookingDate";
+            case "bookedOn": return "bookedOn";
+            default: throw new InvalidSortFieldException(String.format("Can not sort on %s!", sortRequest));
+        }
+    }
 }
