@@ -46,7 +46,7 @@ public class Endpoints {
 
         public static final String DRIVER_BASE_URL = "/driver";
 
-        public static final String GET_BOOKINGS = "/driver/bookings";
+        public static final String GET_BOOKINGS = DRIVER_BASE_URL + "/bookings";
 
     }
 

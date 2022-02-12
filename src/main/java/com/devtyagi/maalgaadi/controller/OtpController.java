@@ -1,8 +1,6 @@
 package com.devtyagi.maalgaadi.controller;
 
 import com.devtyagi.maalgaadi.constants.Endpoints;
-import com.devtyagi.maalgaadi.service.DealerService;
-import com.devtyagi.maalgaadi.service.DriverService;
 import com.devtyagi.maalgaadi.service.OtpService;
 import com.devtyagi.maalgaadi.service.UserService;
 import lombok.RequiredArgsConstructor;

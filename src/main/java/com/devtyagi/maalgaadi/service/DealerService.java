@@ -7,7 +7,6 @@ import com.devtyagi.maalgaadi.dto.request.*;
 import com.devtyagi.maalgaadi.dto.response.BookingResponseDTO;
 import com.devtyagi.maalgaadi.dto.response.GetDriversResponseDTO;
 import com.devtyagi.maalgaadi.dto.response.LoginDealerResponseDTO;
-import com.devtyagi.maalgaadi.dto.response.LoginDriverResponseDTO;
 import com.devtyagi.maalgaadi.enums.UserRole;
 import com.devtyagi.maalgaadi.exception.DealerNotFoundException;
 import com.devtyagi.maalgaadi.exception.InvalidCredentialsException;

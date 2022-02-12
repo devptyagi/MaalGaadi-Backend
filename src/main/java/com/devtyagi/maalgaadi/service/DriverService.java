@@ -1,6 +1,5 @@
 package com.devtyagi.maalgaadi.service;
 
-import com.devtyagi.maalgaadi.dao.Booking;
 import com.devtyagi.maalgaadi.dao.Driver;
 import com.devtyagi.maalgaadi.dao.User;
 import com.devtyagi.maalgaadi.dto.request.GetBookingsRequestDTO;
@@ -15,21 +14,18 @@ import com.devtyagi.maalgaadi.exception.InvalidOtpException;
 import com.devtyagi.maalgaadi.exception.InvalidSortFieldException;
 import com.devtyagi.maalgaadi.model.CustomUserDetails;
 import com.devtyagi.maalgaadi.repository.BookingRepository;
-import com.devtyagi.maalgaadi.repository.DealerRepository;
 import com.devtyagi.maalgaadi.repository.DriverRepository;
 import com.devtyagi.maalgaadi.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

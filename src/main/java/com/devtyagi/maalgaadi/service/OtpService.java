@@ -1,12 +1,9 @@
 package com.devtyagi.maalgaadi.service;
 
 import com.devtyagi.maalgaadi.dao.User;
-import com.devtyagi.maalgaadi.repository.UserRepository;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import lombok.RequiredArgsConstructor;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

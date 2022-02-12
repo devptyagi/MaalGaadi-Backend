@@ -1,7 +1,6 @@
 package com.devtyagi.maalgaadi.controller;
 
 import com.devtyagi.maalgaadi.constants.Endpoints;
-import com.devtyagi.maalgaadi.dao.Booking;
 import com.devtyagi.maalgaadi.dto.request.GetBookingsRequestDTO;
 import com.devtyagi.maalgaadi.dto.request.LoginRequestDTO;
 import com.devtyagi.maalgaadi.dto.request.LoginViaOtpRequestDTO;
@@ -13,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
