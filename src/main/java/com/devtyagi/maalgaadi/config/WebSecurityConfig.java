@@ -41,7 +41,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests()
+        http.cors().and()
+                .authorizeRequests()
                 .antMatchers(Endpoints.BASE_URL + "/auth/**").permitAll()
                 .antMatchers(Endpoints.BASE_URL + "/dealer/**").hasRole(UserRole.DEALER.toString())
                 .antMatchers(Endpoints.BASE_URL + "/driver/**").hasRole(UserRole.DRIVER.toString());
