@@ -15,7 +15,6 @@ public class BookingRequestDTO {
     @NotBlank(message = "Dealer ID must not be blank!")
     private String dealerId;
 
-    @NotBlank(message = "Driver ID must not be blank!")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date bookingDate;
 
