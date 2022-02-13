@@ -43,6 +43,11 @@ public class DealerController {
         return dealerService.getDriversForDealer(getDriversForDealerRequestDTO);
     }
 
+    @PostMapping(Endpoints.DealerAPI.GET_DRIVERS_BY_STATE)
+    public GetDriversResponseDTO getDriversByState(@RequestBody @Valid GetDriversByStateRequestDTO getDriversByStateRequestDTO) {
+        return dealerService.getDriversByState(getDriversByStateRequestDTO);
+    }
+
     @PostMapping(Endpoints.DealerAPI.GET_DRIVERS_BY_ROUTE)
     public GetDriversResponseDTO getDriversByRoute(@RequestBody @Valid GetDriversByRouteRequestDTO getDriversByRouteRequestDTO) {
         return dealerService.getDriversByRoute(getDriversByRouteRequestDTO);

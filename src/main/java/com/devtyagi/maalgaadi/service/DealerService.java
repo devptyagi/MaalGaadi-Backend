@@ -115,6 +115,22 @@ public class DealerService {
                 .build();
     }
 
+    public GetDriversResponseDTO getDriversByState(GetDriversByStateRequestDTO driverRequest) {
+        val sortOrder = driverRequest.getDescending() ? Sort.Direction.DESC : Sort.Direction.ASC;
+        val sortBy = getSortField(driverRequest.getSortBy());
+        val pageRequest = PageRequest.of(
+                driverRequest.getPageNumber(),
+                driverRequest.getPageSize(),
+                Sort.by(sortOrder, sortBy)
+        );
+        val drivers = driverRepository.getAllDriversByState(driverRequest.getState(), pageRequest);
+        return GetDriversResponseDTO.builder()
+                .totalDrivers(drivers.getTotalElements())
+                .totalPages(drivers.getTotalPages())
+                .driverList(drivers.toList())
+                .build();
+    }
+
     public GetDriversResponseDTO getDriversByRoute(GetDriversByRouteRequestDTO driverRequest) {
         val sortOrder = driverRequest.getDescending() ? Sort.Direction.DESC : Sort.Direction.ASC;
         val sortBy = getSortField(driverRequest.getSortBy());
