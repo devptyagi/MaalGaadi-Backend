@@ -4,6 +4,9 @@
 Java, Spring / Spring Boot, JPA, Hibernate, MySQL, Linode VPS, SendGrid API for Emails.
 
 ## Features
+- Book Drivers in a single click.
+- Search Drivers based on Locations.
+- Search drivers based on journey route.  
 - Role based authentication.
 - Password Encryption using BCrypt.
 - JWT Token Authorization.
@@ -32,6 +35,10 @@ Dealer APIs (Can only be access using JWT token of a DEALER user)
 
 Driver APIs (Can only be access using JWT token of a DRIVER user)
 - /api/v1/driver/bookings
+
+## Postman Collection
+
+https://www.getpostman.com/collections/d88fa7feda2395b144e0
 
 ## How to run? (Linux / MacOS)
 
