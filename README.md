@@ -18,7 +18,7 @@ Java, Spring / Spring Boot, JPA, Hibernate, MySQL, Linode VPS, SendGrid API for 
 
 ## API Endpoints
 
-Auth APIs (Permitted for all)
+**Auth APIs** (Permitted for all)
 - /api/v1/auth/dealer/signup
 - /api/v1/auth/driver/signup
 - /api/v1/auth/driver/login
@@ -27,13 +27,13 @@ Auth APIs (Permitted for all)
 - /api/v1/auth/driver/login-otp
 - /api/v1/auth/dealer/login-otp
 
-Dealer APIs (Can only be access using JWT token of a DEALER user)
+**Dealer APIs** (Can only be access using JWT token of a DEALER user)
 - /api/v1/dealer/drivers
 - /api/v1/dealer/drivers-route
 - /api/v1/dealer/book
 - /api/v1/dealer/drivers-state
 
-Driver APIs (Can only be access using JWT token of a DRIVER user)
+**Driver APIs** (Can only be access using JWT token of a DRIVER user)
 - /api/v1/driver/bookings
 
 ## Postman Collection
